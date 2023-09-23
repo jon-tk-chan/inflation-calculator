@@ -6,5 +6,10 @@ Inspired by Ian Webster's website: "[$1 in 1941 → 2023 | Canada Inflation Calc
 
 Resources:
 
+Statistics Canada. Table 18-10-0005-01  Consumer Price Index, annual average, not seasonally adjusted
+
+
+(CPI was exported from Stats Canada Website on 2023-09-23 from the link below and cleaned using R Markdown file `experiment.rmd`).
+
 * https://www.officialdata.org/canada/inflation/2020?amount=1&endYear=2023
-* https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810025601&cubeTimeFrame.startMonth=08&cubeTimeFrame.startYear=1949&cubeTimeFrame.endMonth=08&cubeTimeFrame.endYear=2023&referencePeriods=19490801%2C20230801 
+* https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000501&pickMembers%5B0%5D=1.2&cubeTimeFrame.startYear=1952&cubeTimeFrame.endYear=2022&referencePeriods=19520101%2C20220101
