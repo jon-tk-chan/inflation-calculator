@@ -1,0 +1,35 @@
+---
+title: "experiment"
+output: pdf_document
+date: "2023-09-23"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(shiny)
+library(data.table)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r generate cleanedDataCPI csv file}
+filepath <- "data/rawDataCPI_1972-2022.csv"
+
+raw_df <- read.csv(filepath, skip=9, check.names = FALSE) %>% #check.names used to remove X in table
+          head(16) #drop the rows not containing data - tail rows starting after row 16
+
+cpi_row <- transpose(raw_df[2,])
+years_row <- colnames(raw_df)
+
+cleaned_df <- data.table(years_row, cpi_row)
+cleaned_df <- cleaned_df[-1,]
+colnames(cleaned_df) <- c("years", "CPI")
+
+head(cleaned_df)
+
+```
+
+```{r export cleanedDataCPI csv}
+write.csv(cleaned_df, "data/cleanedDataCPI_1972-2022.csv")
+```
+
+
