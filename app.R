@@ -10,7 +10,7 @@ cpi_years <- c(lubridate::ymd(cpi_df$years, truncated=2L))
 
 
 # User interface ----
-ui <- fluidPage(theme=shinytheme("united"),
+ui <- fluidPage(theme=shinytheme("superhero"),
         navbarPage("Inflation calculator",
            tabPanel("Home",
               sidebarPanel(
@@ -33,11 +33,11 @@ ui <- fluidPage(theme=shinytheme("united"),
                             ),
                 numericInput("amount1",
                              "What they paid ($):",
-                             2000
+                             value = 1000
                               ),
                 textInput("label1",
                           "Expense name: ",
-                          "Rent"
+                          value = "Rent"
                            ),
                 actionButton("submitbutton",
                              "Submit",
@@ -53,9 +53,16 @@ ui <- fluidPage(theme=shinytheme("united"),
                   h4(textOutput("cpi_out")),
                   h3(textOutput("amount_out")),
                   br(),
+                  h3(textOutput("inflation_out")),
+                  br(),
                   markdown("*Statistics Canada. Table 18-10-0005-01  Consumer Price Index, annual average, not seasonally adjusted.*   ([link](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000501&pickMembers%5B0%5D=1.2&cubeTimeFrame.startYear=1952&cubeTimeFrame.endYear=2022&referencePeriods=19520101%2C20220101))")
               ) #mainPanel
-            ) #tabPanle, home
+            ), #tabPanle, home
+           tabPanel("About",
+                    titlePanel("About"),
+                    div(includeMarkdown("about.md"),
+                        align="justify")
+           ) #tabPanel(), about
          ) #navbarPage
 
 )
@@ -80,53 +87,12 @@ server <- function(input, output, session) {
         cpi_text <- paste("The CPI in", input$year1, "is", year1_cpi, ". The CPI in", input$year2, "is", year2_cpi)
         amount2 <- round(((year2_cpi / year1_cpi) * input$amount1), 2)
         amount_text <- paste("Paying $", input$amount1, "(CAD) for", input$label1, "in", year(input$year1), "equates to a value of $", amount2, " (CAD) in", year(input$year2), ".")
+        cum_inflation <- ((year2_cpi - year1_cpi) / year1_cpi) * 100
+        inflation_text <- paste("Cumulative inflation between",year(input$year1), "and",year(input$year2), "was", cum_inflation, "%")
         output$cpi_out <- renderText({cpi_text})
         output$amount_out <- renderText({amount_text})
+        output$inflation_out <- renderText({inflation_text})
       })
-      # #reactively get cpi using input from year1, year2
-      # year1_cpi <- reactive({
-      #   year1 <- year(input$year1)
-      #   year1 <- ymd(year1, truncated=2L)
-      #   year1_index <- which(cpi_years == year1)
-      #   year1_cpi <- cpi_df$CPI[year1_index]
-      #   })
-      #
-      # year2_cpi <- reactive({
-      #   year2 <- year(input$year2)
-      #   year2 <- ymd(year2, truncated=2L)
-      #   year2_index <- which(cpi_years == year2)
-      #   year2_cpi <- cpi_df$CPI[year2_index]
-      # })
-      #
-      # #process year data - calculate and generate text
-      # cpi_text <- reactive({
-      #   if (input$submitbutton > 0) {
-      #     paste("The CPI in", input$year1, "is", year1_cpi(),". The CPI in",input$year2,"is", year2_cpi())
-      #   }
-      # })
-      #
-      # amount_text <- reactive({
-      #   if (input$submitbutton > 0) {
-      #     amount2 <- (year2_cpi() / year1_cpi()) * input$amount1
-      #     paste("Paying", input$amount1, "for", input$label1, "in", input$year1, "equates to", amount2, "in", input$year2, ".")
-      #   }
-      # })
-      #
-      #
-      # #output
-      # output$cpi_out <- renderText({
-      #       if (input$submitbutton > 0) {
-      #         # isolate(year1_cpi())
-      #         print(cpi_text())
-      #       }
-      #   })
-      #
-      # output$amount_out <- renderText({
-      #   if (input$submitbutton > 0) {
-      #     print(amount_text())
-      #   }
-      # })
-
 }
 
 # Run the app
