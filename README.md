@@ -1,5 +1,5 @@
 # inflation-calculator
-R Shiny app calculator using Canada's Consumer Price Index (Statistics Canada)
+R Shiny app calculator using Canada's Consumer Price Index (Statistics Canada).
 
 Inspired by Ian Webster's website: "[$1 in 1941 → 2023 | Canada Inflation Calculator.](https://www.officialdata.org/canada/inflation/1941?amount=1)"
 
@@ -7,7 +7,6 @@ Inspired by Ian Webster's website: "[$1 in 1941 → 2023 | Canada Inflation Calc
 Resources:
 
 Statistics Canada. Table 18-10-0005-01  Consumer Price Index, annual average, not seasonally adjusted
-
 
 (CPI was exported from Stats Canada Website on 2023-09-23 from the link below and cleaned using R Markdown file `experiment.rmd`).
 

@@ -88,6 +88,7 @@ server <- function(input, output, session) {
         amount2 <- round(((year2_cpi / year1_cpi) * input$amount1), 2)
         amount_text <- paste("Paying $", input$amount1, "(CAD) for", input$label1, "in", year(input$year1), "equates to a value of $", amount2, " (CAD) in", year(input$year2), ".")
         cum_inflation <- ((year2_cpi - year1_cpi) / year1_cpi) * 100
+        cum_inflation <- round(cum_inflation,2)
         inflation_text <- paste("Cumulative inflation between",year(input$year1), "and",year(input$year2), "was", cum_inflation, "%")
         output$cpi_out <- renderText({cpi_text})
         output$amount_out <- renderText({amount_text})
